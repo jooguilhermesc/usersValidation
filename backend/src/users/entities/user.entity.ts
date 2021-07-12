@@ -20,6 +20,6 @@ export class User {
   @Column('varchar', { array: true })
   habilities: string[];
 
-  @Column({ default: 0 })
-  isValidated: number;
+  @Column({ default: 'NÃO VALIDADO' })
+  isValidated: 'VALIDADO' | 'NÃO VALIDADO';
 }

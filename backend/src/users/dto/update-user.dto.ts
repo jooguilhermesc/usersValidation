@@ -8,5 +8,5 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   cpf: string;
   phoneNumber?: string;
   habilities: string[];
-  isValidated?: number;
+  isValidated?: 'VALIDADO' | 'NÃO VALIDADO';
 }
