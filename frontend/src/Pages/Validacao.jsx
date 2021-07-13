@@ -1,38 +1,55 @@
 import React from "react";
-import { useState } from "react";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
 const Validacao = () => {
-  const user = {
-    id: 0,
-    nome: "João",
-    email: "nome@domain.com",
-    cpf: "000.000.000-00",
-    telefone: "(XX) XXXXX-XXXX",
-    conhecimentos: ["html", "css", "react"],
-    validado: 0,
-  };
+  const [users, setUsers] = useState([]);
 
-  const arrayUserStatus = useState(0);
-  let userStatus = arrayUserStatus[0];
-  const setUserStatus = arrayUserStatus[1];
+  useEffect(() => {
+    async function getUser() {
+      try {
+        const response = await axios.get("users/listar");
+        setUsers(response.data);
+        //console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getUser();
+  }, []);
 
-  function validar() {
-    setUserStatus(1);
-  }
+  // const arrayUserStatus = useState(0);
+  // let userStatus = arrayUserStatus[0];
+  // const setUserStatus = arrayUserStatus[1];
 
-  const habilities = user.conhecimentos.map((conhecimento, i) => (
-    <li key={i}>{conhecimento}</li>
-  ));
+  // function validar() {
+  //   setUserStatus(1);
+  // }
+
+  // const habilities = user.conhecimentos.map((conhecimento, i) => (
+  //   <li key={i}>{conhecimento}</li>
+  // ));
 
   return (
     <>
-      <div>Nome: {user.nome}</div>
-      <div>Email: {user.email}</div>
-      <div>CPF: {user.cpf}</div>
-      <div>Telefone: {user.telefone}</div>
-      <div>Conhecimentos: {habilities}</div>
-      <div>Status: {userStatus === 0 ? "NÃO VALIDADO" : "VALIDADO"}</div>
-      <button onClick={validar}>Validar</button>
+      {users.map((user) => (
+        <ul key={user.id}>
+          <li>Nome: {user.name}</li>
+          <li>E-mail: {user.email}</li>
+          <li>CPF: {user.cpf}</li>
+          <li>Telefone: {user.phoneNumber}</li>
+          <li>
+            Conhecimentos:{" "}
+            {user.habilities.map((hability, i) => (
+              <ul key={i}>
+                <li>{hability}</li>
+              </ul>
+            ))}
+          </li>
+          <li>Status: {user.isValidated}</li>
+        </ul>
+      ))}
+      <button onClick={console.log(users)}>Validar</button>
     </>
   );
 };

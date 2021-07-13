@@ -1,35 +1,44 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// import Validacao from "./Validacao";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
 const Consulta = () => {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    async function getUser() {
+      try {
+        const response = await axios.get("users/listar");
+        setUsers(response.data);
+        //console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getUser();
+  }, []);
+
   return (
     <>
-      <table>
-        <tr>
-          <th>Nome</th>
-          <th>Status</th>
-          <th>Consultar</th>
-        </tr>
-        <tr>
-          <td>João</td>
-          <td>
-            <span>Não validado</span>
-          </td>
-          <td>
-            <Link to="/validacao">Consultar</Link>
-          </td>
-        </tr>
-        <tr>
-          <td>Guilherme</td>
-          <td>
-            <span>Validado</span>
-          </td>
-          <td>
-            <Link to="/validacao">Consultar</Link>
-          </td>
-        </tr>
-      </table>
+      {users.map((user, index) => (
+        <table>
+          <tr>
+            <th>Nome</th>
+            <th>Status</th>
+            <th>Consultar</th>
+          </tr>
+          <tr key={index}>
+            <td>{user.name}</td>
+            <td>
+              <span>{user.isValidated}</span>
+            </td>
+            <td>
+              <Link to={`/validacao/${user.id}`}>Consultar</Link>
+            </td>
+          </tr>
+        </table>
+      ))}
     </>
   );
 };
