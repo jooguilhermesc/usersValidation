@@ -12,8 +12,8 @@ import { User } from './users/entities/user.entity';
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'Sn0w3o08*',
-      database: 'users',
+      password: '', //INSIRA AQUI SUA SENHA
+      database: '', //INSIRA AQUI O BANCO DE DADOS CRIADO COM POSTGRES
       entities: [User],
       synchronize: true,
     }),
